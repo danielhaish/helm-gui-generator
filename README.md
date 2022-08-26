@@ -4,6 +4,7 @@ This project meant to acclrate you helming process by let you insert ui componen
 get all the resources on you kuberentes cluster.
 
 TO do
+
 ui wise(order by pirority):
   - Add the other resosource such as config map, services, ingress, and presistent volume claim.
   - Add tree map of the services of the current helm eg deployment related resource pods
