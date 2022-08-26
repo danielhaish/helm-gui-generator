@@ -1,0 +1,201 @@
+<div class="mainclass">
+    <div id="component-bar">
+        <button>Add deployment</button>
+        <button>Add config map</button>
+        <button>Add service</button>
+        <button>Add ingress</button>
+        <button>Presistent volume</button>
+        <button>Presistent volume claim</button>
+    </div>
+    <div class="vertical">
+        
+        <button width=20% id="subchart">Add sub chart</button>
+        <button width=20%>Add Dependices</button>
+        <button id="var" width=20%>Add global value</button>
+        <div class="herizontal">
+            <h4>Current chart:</h4>
+            <select name="charts" id="charts">
+                <option value="main">main</option>
+            </select>
+        </div>
+    </div>
+    <div id="deployment" class="vertical">
+        <div class="herizontal">
+            
+            <input style="width: 230%" placeholder="image"></input>
+
+            <div class="herizontal">
+                <h6>replica set:</h6>
+                <input style="width:70%" type="number" id="quantity" name="quantity" min="1" >
+            </div>
+        </div>
+        
+        <h1>envs:</h1>
+        <div class="herizontal">
+            <textarea placeholder="names(each variable in new line)" ></textarea>
+            <h1>=</h1>
+            <textarea placeholder="values(each value in line")></textarea>
+        </div>
+        <div id="ports" class="herizontal">
+            <div>
+                <h1>Protocol tcp/udp</h1>
+                <textarea placeholder="names(each variable in new line)" ></textarea>
+            </div>
+            
+            <div class="center-algin">
+                <h1->-</h1>
+                <div>
+                    <h1>ports</h1>
+               
+                    <textarea placeholder="values(each value in line)" ></textarea>
+                </div>
+               
+            </div>
+            <div>
+                <h1>names</h1>
+           
+                <textarea placeholder="values(each value in line)" ></textarea>
+            </div>
+            <div>
+                <h1>service type</h1>
+           
+                <textarea placeholder="values(CI, NP, LB, EN)" ></textarea>
+            </div>
+           
+          
+        </div>
+    </div>
+    <div>
+        <button id="storage-to-deploy">Add storage</button>
+        <button>save deployment</button>
+    </div>
+</div>
+    <div class="info" id="helm-info">
+        <h1>componenet:</h1>
+        <div class="scroll">
+        </div>
+    </div>
+    <div class="info" id="var-info">
+        <h1>variables:</h1>
+        <div id="vairables" class="scroll">
+
+        </div>
+</div>
+<style>
+    .info{
+        background-color: #fed9ff;
+        
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: center;
+    }
+    .scroll{
+        width: 140%;
+        height: 150px;
+        width: 20%;
+        padding: 40px;
+    }
+    .center-algin{
+        display:flex;
+        align-items: center; 
+        padding-right: 2%;
+    }
+    #ports {
+        display:flex;
+        align-items: flex-end; 
+        padding-right: 2%;
+    }
+    #deployment .herizontal input{
+        width: 50%;
+        padding-right: 5%;
+    }
+    .mainclass{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        display:flex;
+
+        flex-direction: column;
+
+    }
+    .vertical{
+        display:flex;
+        width: 20%;
+        margin-top: 2%;
+        margin-bottom: 1%;
+        flex-direction: column;
+    }
+    .vertical button{
+        margin-bottom: 2%;
+    }
+    .herizontal{
+        display:flex;
+        text-align: center;
+        align-self: center;
+        vertical-align:middle;
+        justify-content: center;
+        align-items: center; 
+        flex-direction: row;
+    }
+    .herizontal select{
+        height: 20%;
+    }
+    #var-info{
+        float: right;
+        position: absolute;
+        right: 20%;
+        top: 15%;
+    }
+    #helm-info{
+        float: right;
+        position: absolute;
+        right: 75%;
+        top: 15%;
+    }
+    #component-bar{
+        background-color: rgb(13, 56, 199);
+        width: 100%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }
+    #component-bar button{
+        background-color: rgb(77, 0, 112);
+        font-size: larger;
+    }
+</style>
+
+<script>
+    subchart_ids = []
+    volumes = []
+    global_variables = []
+    document.getElementById("subchart").addEventListener("click", ()=>{
+       var new_subchart_name = prompt("Sub chart name")
+       if ( !(subchart_ids.includes(new_subchart_name) )){
+        subchart_ids.push(new_subchart_name)
+        var chart_selector = document.getElementById("charts");
+        var option = document.createElement("option");
+        option.text = new_subchart_name;
+        option.id = new_subchart_name
+        chart_selector.add(option);
+        }
+    })
+   
+    document.getElementById("var").addEventListener("click", ()=>{
+       var new_variable = prompt("varaible name (var = value)")
+       if ( new_variable.includes("=") && !(global_variables.includes(new_variable))){
+         global_variables.push(new_variable.split("="))
+         title =document.createElement("h3")
+         title.innerHTML = new_variable
+         document.getElementById("vairables").appendChild(title)
+        }
+    })
+
+    document.getElementById("storage-to-deploy").addEventListener("click", ()=>{
+       var new_variable = prompt("Add volume (volume name : path)")
+       if ( new_variable.includes(":") && !(global_variables.includes(new_variable))){
+         volumes.push(new_variable.split(":"))
+         console.log(volumes)
+        }
+    })
+
+</script>
